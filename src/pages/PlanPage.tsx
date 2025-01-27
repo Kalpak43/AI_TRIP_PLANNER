@@ -185,7 +185,7 @@ function PlanPage() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      className="flex flex-col items-center"
+                      className="flex flex-col items-center justify-center w-full h-[800px] animated-bg rounded-md"
                     >
                       <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
                       <p className="mt-4">
