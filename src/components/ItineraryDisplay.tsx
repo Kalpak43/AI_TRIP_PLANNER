@@ -162,10 +162,10 @@ const ItineraryDisplay: React.FC<ItineraryDisplayProps> = ({
           </div>
         )}
         <div className="mb-6">
-          <h3 className="text-xl font-semibold mb-2">Weather</h3>
-          <p>{itinerary.info.weather}</p>
+          <h3 className="text-xl font-bold mb-4 bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text">Weather</h3>
+          <p className="text-gray-600">{itinerary.info.weather}</p>
         </div>
-        <Accordion type="single" collapsible className="mb-6">
+        <Accordion type="single" collapsible className="mb-6 ">
           {itinerary.itinerary.map((day, dayIndex) => (
             <AccordionItem key={dayIndex} value={`day-${day.day}`}>
               <AccordionTrigger>{day.title}</AccordionTrigger>
@@ -228,8 +228,8 @@ const ItineraryDisplay: React.FC<ItineraryDisplayProps> = ({
           <Accommodation accommodations={itinerary.accommodation} />
         )}
 
-        <div className="mt-4">
-          <h3 className="text-xl font-semibold mb-2">Budget</h3>
+        <div className="mt-4 p-4">
+          <h3 className="text-xl font-semibold  mb-4 bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text">Estimated Budget</h3>
           <div className="border-2 rounded-lg">
             <Table>
               <TableHeader>

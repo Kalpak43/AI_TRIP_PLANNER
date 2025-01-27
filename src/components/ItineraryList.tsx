@@ -47,7 +47,7 @@ function ItineraryList() {
   };
 
   return (
-    <Card className="w-full max-w-4xl mx-auto">
+    <Card className="w-full mx-auto">
       <CardHeader>
         <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-transparent bg-clip-text">
           Your Itineraries
@@ -68,77 +68,73 @@ function ItineraryList() {
             No itineraries found. Start planning your next adventure!
           </p>
         ) : (
-          <ScrollArea className="h-[400px] pr-4">
-            <AnimatePresence>
-              {itineraries.map((itinerary, index) => (
-                <motion.div
-                  key={itinerary.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
+          <AnimatePresence>
+            {itineraries.map((itinerary, index) => (
+              <motion.div
+                key={itinerary.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+              >
+                <Card
+                  className="mb-4 cursor-pointer transition-all hover:shadow-md"
+                  onClick={() => handleItineraryClick(itinerary)}
                 >
-                  <Card
-                    className="mb-4 cursor-pointer transition-all hover:shadow-md"
-                    onClick={() => handleItineraryClick(itinerary)}
-                  >
-                    <CardContent className="p-4">
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <h3 className="text-lg font-semibold">
-                            {itinerary.title}
-                          </h3>
-                          <p className="text-sm text-gray-500">
-                            {itinerary.info.weather}
-                          </p>
-                        </div>
-                        <Button variant="ghost" size="icon">
-                          <ChevronRight
-                            className={`h-4 w-4 transition-transform ${
-                              selectedItinerary?.title === itinerary.title
-                                ? "rotate-90"
-                                : ""
-                            }`}
-                          />
-                        </Button>
+                  <CardContent className="p-4">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h3 className="text-lg font-semibold">
+                          {itinerary.title}
+                        </h3>
+                        <p className="text-sm text-gray-500">
+                          {itinerary.info.weather}
+                        </p>
                       </div>
-                      {selectedItinerary?.title === itinerary.title && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="mt-4"
-                        >
-                          <h4 className="font-semibold mb-2">
-                            Itinerary Overview:
-                          </h4>
-                          <ul className="list-disc list-inside space-y-1">
-                            {itinerary.itinerary.map((day, dayIndex) => (
-                              <li key={dayIndex}>
-                                {day.title}: {day.activities.length} activities
-                              </li>
-                            ))}
-                          </ul>
-                          <div className="mt-4">
-                            <h4 className="font-semibold mb-2">Budget:</h4>
-                            <p>Total: {itinerary.budget.total_budget}</p>
-                          </div>
-                          <Button asChild className="mt-4 w-full">
-                            <Link
-                              to={`/itinerary/${itinerary.id}-${user?.uid}`}
-                            >
-                              View Full Itinerary
-                            </Link>
-                          </Button>
-                        </motion.div>
-                      )}
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </ScrollArea>
+                      <Button variant="ghost" size="icon">
+                        <ChevronRight
+                          className={`h-4 w-4 transition-transform ${
+                            selectedItinerary?.title === itinerary.title
+                              ? "rotate-90"
+                              : ""
+                          }`}
+                        />
+                      </Button>
+                    </div>
+                    {selectedItinerary?.title === itinerary.title && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="mt-4"
+                      >
+                        <h4 className="font-semibold mb-2">
+                          Itinerary Overview:
+                        </h4>
+                        <ul className="list-disc list-inside space-y-1">
+                          {itinerary.itinerary.map((day, dayIndex) => (
+                            <li key={dayIndex}>
+                              {day.title}: {day.activities.length} activities
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="mt-4">
+                          <h4 className="font-semibold mb-2">Budget:</h4>
+                          <p>Total: {itinerary.budget.total_budget}</p>
+                        </div>
+                        <Button asChild className="mt-4 w-full">
+                          <Link to={`/itinerary/${itinerary.id}-${user?.uid}`}>
+                            View Full Itinerary
+                          </Link>
+                        </Button>
+                      </motion.div>
+                    )}
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         )}
       </CardContent>
     </Card>

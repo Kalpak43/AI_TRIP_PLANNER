@@ -70,7 +70,7 @@ function WeatherComponent({ destination }: { destination: string }) {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-xl font-bold">Current Weather</h1>
+      <h1 className="text-xl text-center font-bold mb-4 bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text">Current Weather</h1>
 
       {weather ? (
         <div>

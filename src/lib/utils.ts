@@ -7,6 +7,7 @@ import {
   getDoc,
   doc,
   updateDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
 
@@ -154,3 +155,21 @@ const updateItineraryById = async (
 };
 
 export { updateItineraryById };
+
+const deleteItineraryById = async (userId: string, itineraryId: string) => {
+  try {
+    const itineraryDocRef = doc(
+      db,
+      "users",
+      userId,
+      "itineraries",
+      itineraryId
+    );
+    await deleteDoc(itineraryDocRef);
+    console.log("Itinerary deleted successfully!");
+  } catch (error) {
+    console.error("Error deleting itinerary: ", error);
+  }
+};
+
+export { deleteItineraryById };
