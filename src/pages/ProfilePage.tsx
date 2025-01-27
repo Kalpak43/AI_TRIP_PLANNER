@@ -1,6 +1,5 @@
 import { useAppSelector } from "@/app/hook";
 import ItineraryList from "@/components/ItineraryList";
-import { Card } from "@/components/ui/card";
 
 function ProfilePage() {
   const { user } = useAppSelector((state) => state.auth);

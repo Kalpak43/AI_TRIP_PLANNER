@@ -1,4 +1,3 @@
-import { LoadScript } from "@react-google-maps/api";
 import SearchBar from "@/components/SearchBar";
 import Recommendations from "@/components/Recommendations";
 

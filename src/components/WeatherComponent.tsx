@@ -10,11 +10,13 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { Loader2 } from "lucide-react";
 
 function WeatherComponent({ destination }: { destination: string }) {
   const [latLng, setLatLng] = useState<{ lat: number; lng: number } | null>(
     null
   );
+  console.log(latLng);
   const [weather, setWeather] = useState<any>(null);
 
   // Fetch coordinates for the destination
@@ -97,7 +99,9 @@ function WeatherComponent({ destination }: { destination: string }) {
             </ResponsiveContainer>
           </div>
         ) : (
-          <p>Loading weather data...</p>
+          <div className="flex justify-center items-center h-24">
+            <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
+          </div>
         )}
       </div>
     </div>

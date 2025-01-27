@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { TravelDatePicker } from "@/components/TravelDatePicker";
 import { TravelTypePicker } from "@/components/TravelTypePicker";
 import { ActivityPicker } from "@/components/ActivityPicker";
 import { motion } from "motion/react";
 import { Loader2 } from "lucide-react";
-import ItineraryDisplay from "@/components/ItineraryDisplay";
 import { Itinerary, storeItinerary } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useAppSelector } from "@/app/hook";
@@ -20,6 +19,8 @@ export interface TravelData {
   activities: string[];
   type: "solo" | "couple" | "family" | "friends";
 }
+
+const API_URL = import.meta.env.VITE_AI_API_URL as string;
 
 function PlanPage() {
   const location = useLocation();
@@ -62,19 +63,16 @@ function PlanPage() {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/generateItinerary",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ...travelData,
-            duration: travelData.days,
-          }),
-        }
-      );
+      const response = await fetch(`${API_URL}/api/generateItinerary`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...travelData,
+          duration: travelData.days,
+        }),
+      });
 
       if (!response.ok) {
         throw new Error("Failed to generate itinerary");

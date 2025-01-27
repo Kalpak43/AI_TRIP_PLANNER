@@ -224,14 +224,14 @@ const FlightComponent: React.FC<FlightSearchProps> = ({
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Flight ID</TableHead>
-                <TableHead>Price (INR)</TableHead>
-                <TableHead>Departure</TableHead>
-                <TableHead>Arrival</TableHead>
-                <TableHead>Airline</TableHead>
+                <TableHead className="text-center">Flight ID</TableHead>
+                <TableHead className="text-center">Price (INR)</TableHead>
+                <TableHead className="text-center">Departure</TableHead>
+                <TableHead className="text-center">Arrival</TableHead>
+                <TableHead className="text-center">Airline</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody className="text-center">
               {flights.map((flight) => (
                 <TableRow key={flight.id}>
                   <TableCell>{flight.id}</TableCell>

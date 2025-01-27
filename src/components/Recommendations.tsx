@@ -25,13 +25,16 @@ const getSeason = () => {
   return "Winter"; // December to February
 };
 
+const API_URL = import.meta.env.VITE_AI_API_URL as string;
+
 const fetchDestinations = async (
   setDestinations: React.Dispatch<React.SetStateAction<DestinationTypes | null>>
 ) => {
   const season = getSeason();
+  console.log(API_URL);
 
   try {
-    const response = await fetch("http://localhost:3000/api/destinations", {
+    const response = await fetch(`${API_URL}/api/destinations`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

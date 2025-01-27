@@ -3,8 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import type { TravelData } from "@/pages/PlanPage";
-import { Trash, X } from "lucide-react";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
+import { X } from "lucide-react";
 
 interface ActivityPickerProps {
   travelData: TravelData;
@@ -57,7 +56,7 @@ export function ActivityPicker({
               Preferred Activities
             </Label>
             <div className="py-4 flex flex-wrap items-center justify-center gap-4">
-              {predefinedActivities.map((a, i) => (
+              {predefinedActivities.map((a) => (
                 <Button
                   variant="outline"
                   key={a}
