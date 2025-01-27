@@ -1,5 +1,4 @@
 import { useAppSelector } from "@/app/hook";
-import ItineraryDisplay from "@/components/ItineraryDisplay";
 import {
   getItineraryById,
   type Itinerary,
@@ -164,19 +163,20 @@ function ItineraryPage() {
           )}
         </div>
       </div>
-
-      {data ? (
-        <ItineraryLayout
-          data={data}
-          isSaved={isSaved}
-          onSave={handleSave}
-          editable={!!(user && user.uid == data.createdBy)}
-        />
-      ) : (
-        <div className="flex justify-center items-center h-64">
-          <Loader2 className="h-8 w-8 animate-spin text-gray-500" />
-        </div>
-      )}
+      <div className="px-1">
+        {data ? (
+          <ItineraryLayout
+            data={data}
+            isSaved={isSaved}
+            onSave={handleSave}
+            editable={!!(user && user.uid == data.createdBy)}
+          />
+        ) : (
+          <div className="flex justify-center items-center h-64">
+            <Loader2 className="h-8 w-8 animate-spin text-gray-500" />
+          </div>
+        )}
+      </div>
     </main>
   );
 }

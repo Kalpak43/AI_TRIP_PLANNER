@@ -69,33 +69,37 @@ function WeatherComponent({ destination }: { destination: string }) {
   };
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-xl text-center font-bold mb-4 bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text">Current Weather</h1>
+    <div className="p-[1px] bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 shadow-md rounded-md">
+      <div className="space-y-4 bg-white rounded-md p-4">
+        <h1 className="text-xl text-center font-bold mb-4 bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text">
+          Current Weather Details
+        </h1>
 
-      {weather ? (
-        <div>
-          <ResponsiveContainer width="100%" height={400}>
-            <LineChart
-              data={transformWeatherData()}
-              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="temperature"
-                stroke="#8884d8"
-                activeDot={{ r: 8 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      ) : (
-        <p>Loading weather data...</p>
-      )}
+        {weather ? (
+          <div>
+            <ResponsiveContainer width="100%" height={400}>
+              <LineChart
+                data={transformWeatherData()}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="temperature"
+                  stroke="#8884d8"
+                  activeDot={{ r: 8 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        ) : (
+          <p>Loading weather data...</p>
+        )}
+      </div>
     </div>
   );
 }

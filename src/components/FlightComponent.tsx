@@ -58,23 +58,25 @@ const FlightComponent: React.FC<FlightSearchProps> = ({ destination }) => {
   }, [destination]); // Re-fetch flights when the destination prop changes
 
   return (
-    <div>
-      <h1>Flights to {destination}</h1>
+    <div className="p-[1px] bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 shadow-md rounded-md">
+      <div className="space-y-4 bg-white rounded-md p-4">
+        <h1 className="text-xl text-center font-bold mb-4 bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text">Flights to {destination}</h1>
 
-      {loading && <p>Loading flights...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+        {loading && <p>Loading flights...</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
 
-      <ul>
-        {flights.map((flight) => (
-          <li key={flight.id}>
-            <p>Flight ID: {flight.id}</p>
-            <p>Price: ${flight.price}</p>
-            <p>Departure: {flight.departure}</p>
-            <p>Arrival: {flight.arrival}</p>
-            <p>Airline: {flight.airline}</p>
-          </li>
-        ))}
-      </ul>
+        <ul>
+          {flights.map((flight) => (
+            <li key={flight.id}>
+              <p>Flight ID: {flight.id}</p>
+              <p>Price: ${flight.price}</p>
+              <p>Departure: {flight.departure}</p>
+              <p>Arrival: {flight.arrival}</p>
+              <p>Airline: {flight.airline}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

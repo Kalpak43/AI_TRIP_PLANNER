@@ -57,6 +57,7 @@ export interface Itinerary {
   };
   createdBy?: string;
   creatorProfile?: string;
+  createdAt?: Date;
 }
 
 const storeItinerary = async (
@@ -73,6 +74,7 @@ const storeItinerary = async (
     );
     await addDoc(itinerariesCollection, {
       ...itinerary,
+      createdAt: new Date(),
       createdBy: userId,
       creatorProfile: photoUrl,
     });
@@ -100,6 +102,14 @@ const getItineraries = async (userId: string) => {
         ...doc.data(),
       } as Itinerary);
     });
+
+    // Sort itineraries from newest to oldest
+    itineraries.sort((a, b) => {
+      const dateA = a.createdAt ? new Date(a.createdAt) : new Date(0); // Default to a very old date
+      const dateB = b.createdAt ? new Date(b.createdAt) : new Date(0);
+      return dateB.getTime() - dateA.getTime(); // Newest to oldest
+    });
+
     return itineraries;
   } catch (error) {
     console.error("Error retrieving itineraries: ", error);

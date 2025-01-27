@@ -228,7 +228,7 @@ const ItineraryDisplay: React.FC<ItineraryDisplayProps> = ({
           <Accommodation accommodations={itinerary.accommodation} />
         )}
 
-        <div className="mt-4 p-4">
+        <div className="mt-4 py-4">
           <h3 className="text-xl font-semibold  mb-4 bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text">Estimated Budget</h3>
           <div className="border-2 rounded-lg">
             <Table>
