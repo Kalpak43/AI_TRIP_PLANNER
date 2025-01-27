@@ -244,10 +244,14 @@ function PlanPage() {
                     disabled={step === 1}
                     className="gradient-hover"
                   >
-                    Back
+                    <span>Back</span>
                   </Button>
-                  <Button variant={"outline"} onClick={handleNext}>
-                    {step === 3 ? "Generate Itinerary" : "Next"}
+                  <Button
+                    variant={"outline"}
+                    onClick={handleNext}
+                    className="gradient-hover"
+                  >
+                    <span>{step === 3 ? "Generate Itinerary" : "Next"}</span>
                   </Button>
                 </>
               )}

@@ -82,7 +82,7 @@ function Navbar() {
   };
 
   return (
-    <div className="bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 pb-[1px] mb-4 shadow-md">
+    <div className="bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 pb-[1px] shadow-md">
       <header className="flex bg-white items-center justify-between py-4 px-4 sm:px-6 lg:px-8">
         <Link to="/home" className="flex items-center">
           <h2 className="font-bold text-2xl sm:text-3xl bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 text-transparent bg-clip-text">

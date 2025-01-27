@@ -13,6 +13,7 @@ import { useToast } from "./hooks/use-toast";
 import ProfilePage from "./pages/ProfilePage";
 import PlanPage from "./pages/PlanPage";
 import ItineraryPage from "./pages/ItineraryPage";
+import LandingPage from "./pages/LandingPage";
 
 const App: React.FC = () => {
   const { user, error } = useAppSelector((state) => state.auth);
@@ -38,7 +39,7 @@ const App: React.FC = () => {
         <Route path="/signin" element={<SigninPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
+          <Route index element={<LandingPage />} />
           <Route
             path="/home"
             element={
