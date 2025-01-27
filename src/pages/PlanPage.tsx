@@ -34,7 +34,7 @@ function PlanPage() {
     error,
     isSaved,
     generateItinerary,
-    handleSaveItinerary,
+    saveItinerary,
   } = useItinerary();
 
   const [step, setStep] = useState(1);
@@ -128,7 +128,7 @@ function PlanPage() {
                       <div className="flex py-2 justify-end w-full">
                         {step === 4 && itinerary && !isSaved && (
                           <Button
-                            onClick={handleSaveItinerary}
+                            onClick={() => saveItinerary()}
                             className=""
                             disabled={isLoading}
                           >

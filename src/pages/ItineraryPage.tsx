@@ -1,76 +1,42 @@
 import { useAppSelector } from "@/app/hook";
-import {
-  getItineraryById,
-  type Itinerary,
-  updateItineraryById,
-  deleteItineraryById, // Import the delete function
-} from "@/lib/utils";
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router"; // Import useNavigate for redirection
+import { useEffect } from "react";
+import { useParams } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Loader2, Save, Share2, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ItineraryLayout from "@/components/ItineraryLayout";
+import { useItinerary } from "@/hooks/useItinerary";
 
 function ItineraryPage() {
   const { completeId } = useParams();
   const itId = completeId ? completeId.split("-")[0] : null;
   const userId = completeId ? completeId.split("-")[1] : null;
   const { user } = useAppSelector((state) => state.auth);
-  const [data, setData] = useState<Itinerary | null>(null);
-  const [isSaved, setIsSaved] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false); // State for delete loading
   const { toast } = useToast();
-  const navigate = useNavigate(); // For redirection after deletion
 
+  // Use the custom hook
+  const {
+    itinerary: data,
+    isLoading,
+    saving,
+    isDeleting,
+    isSaved,
+    fetchItinerary,
+    updateItinerary,
+    saveItinerary,
+    deleteItinerary,
+  } = useItinerary();
+
+  // Fetch itinerary on mount
   useEffect(() => {
-    async function getItinerary() {
-      if (userId && itId) {
-        const res = await getItineraryById(userId, itId);
-        setData(res);
-      }
+    if (userId && itId) {
+      fetchItinerary(userId, itId);
     }
+  }, [userId, itId]);
 
-    getItinerary();
-  }, [user, itId]);
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
-  async function handleSave(iti: Itinerary) {
-    setData(iti);
-    setIsSaved(false);
-  }
-
-  async function saveToFirebase() {
-    if (user && itId && data) {
-      setIsSaving(true);
-      try {
-        await updateItineraryById(user.uid, itId, data);
-        setIsSaved(true);
-        toast({
-          title: "Itinerary Saved",
-          description: "Your itinerary has been successfully saved.",
-          duration: 3000,
-        });
-      } catch (error) {
-        console.error("Error saving itinerary:", error);
-        toast({
-          title: "Error",
-          description: "Failed to save the itinerary. Please try again.",
-          variant: "destructive",
-          duration: 3000,
-        });
-      } finally {
-        setIsSaving(false);
-      }
-    }
-  }
-
+  // Handle copying the link
   const handleCopyLink = () => {
-    const pageLink = window.location.href; // Get the current page URL
+    const pageLink = window.location.href;
     navigator.clipboard
       .writeText(pageLink)
       .then(() => {
@@ -81,36 +47,6 @@ function ItineraryPage() {
       .catch((err) => {
         console.error("Failed to copy link: ", err);
       });
-  };
-
-  const handleDelete = async () => {
-    if (user && itId) {
-      const confirmed = window.confirm(
-        "Are you sure you want to delete this itinerary?"
-      );
-      if (!confirmed) return;
-
-      setIsDeleting(true);
-      try {
-        await deleteItineraryById(user.uid, itId);
-        toast({
-          title: "Itinerary Deleted",
-          description: "Your itinerary has been successfully deleted.",
-          duration: 3000,
-        });
-        navigate("/profile"); // Redirect to the home page or another route after deletion
-      } catch (error) {
-        console.error("Error deleting itinerary:", error);
-        toast({
-          title: "Error",
-          description: "Failed to delete the itinerary. Please try again.",
-          variant: "destructive",
-          duration: 3000,
-        });
-      } finally {
-        setIsDeleting(false);
-      }
-    }
   };
 
   return (
@@ -136,19 +72,19 @@ function ItineraryPage() {
                 <Share2 className="h-4 w-4" />
               </Button>
               <Button
-                onClick={saveToFirebase}
-                disabled={isSaved || isSaving}
+                onClick={() => saveItinerary(itId!)} // Use saveItinerary from the hook
+                disabled={isSaved || saving}
                 className="text-green-500 disabled:text-gray-400"
                 variant={"ghost"}
               >
-                {isSaving ? (
+                {saving ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
                 ) : (
                   <Save className="h-4 w-4" />
                 )}
               </Button>
               <Button
-                onClick={handleDelete} // Updated onClick handler
+                onClick={() => deleteItinerary(itId!)} // Use deleteItinerary from the hook
                 disabled={isDeleting}
                 className="text-red-500 disabled:text-gray-400"
                 variant={"ghost"}
@@ -164,17 +100,19 @@ function ItineraryPage() {
         </div>
       </div>
       <div className="px-1">
-        {data ? (
-          <ItineraryLayout
-            data={data}
-            isSaved={isSaved}
-            onSave={handleSave}
-            editable={!!(user && user.uid == data.createdBy)}
-          />
-        ) : (
+        {isLoading ? (
           <div className="flex justify-center items-center h-64">
             <Loader2 className="h-8 w-8 animate-spin text-gray-500" />
           </div>
+        ) : data ? (
+          <ItineraryLayout
+            data={data}
+            isSaved={isSaved}
+            onSave={updateItinerary} // Pass the handleSave function
+            editable={!!(user && user.uid === data.createdBy)}
+          />
+        ) : (
+          <p className="text-center">No itinerary found.</p>
         )}
       </div>
     </main>
