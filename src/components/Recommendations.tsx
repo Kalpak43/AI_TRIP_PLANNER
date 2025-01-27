@@ -1,5 +1,3 @@
-import type React from "react";
-import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -7,111 +5,24 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Loader2 } from "lucide-react";
 import { Link } from "react-router";
 import { Button } from "./ui/button";
+import useDestinations from "@/hooks/useDestinations";
 
 interface Destination {
   destination: string;
   reason: string;
-  imageUrl?: string; // Optional field for the image URL
+  imageUrl?: string | null; // Optional field for the image URL
 }
-interface DestinationTypes {
-  domesticDestinations: Destination[];
-  foreignDestinations: Destination[];
-}
-const getSeason = () => {
-  const month = new Date().getMonth(); // 0 = January, 1 = February, ..., 11 = December
-  if (month >= 3 && month <= 5) return "Spring"; // March to May
-  if (month >= 6 && month <= 8) return "Summer"; // June to August
-  if (month >= 9 && month <= 11) return "Autumn"; // September to November
-  return "Winter"; // December to February
-};
-
-const API_URL = import.meta.env.VITE_AI_API_URL as string;
-
-const fetchDestinations = async (
-  setDestinations: React.Dispatch<React.SetStateAction<DestinationTypes | null>>
-) => {
-  const season = getSeason();
-  console.log(API_URL);
-
-  try {
-    const response = await fetch(`${API_URL}/api/destinations`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ season }),
-    });
-
-    const data = await response.json();
-    setDestinations(data);
-    console.log("Destinations:", data); // Handle the response data as needed
-  } catch (error) {
-    console.error("Error fetching destinations:", error);
-  }
-};
-
-const getPlaceImage = async (destination: string): Promise<string | null> => {
-  const unsplashAccessKey = "2uoFjCKyi9A3lRv24viv3sP0Lg8o7LVl9yUonT6N_PA"; // Replace with your Unsplash API key
-  const query = encodeURIComponent(destination); // Ensure the destination is URL encoded
-  const unsplashUrl = `https://api.unsplash.com/search/photos?query=${query}&client_id=${unsplashAccessKey}&per_page=1`;
-
-  try {
-    const response = await fetch(unsplashUrl);
-    const data = await response.json();
-
-    if (data.results && data.results.length > 0) {
-      // Get the URL of the first image in the search results
-      const imageUrl = data.results[0]?.urls?.regular; // 'regular' size is good for general use
-      return imageUrl || null; // Return image URL or null if no image found
-    } else {
-      return null; // No images found for the destination
-    }
-  } catch (error) {
-    console.error("Error fetching image from Unsplash:", error);
-    return null;
-  }
-};
 
 function Recommendations() {
-  const [destinations, setDestinations] = useState<DestinationTypes | null>(
-    null
-  );
-  const [imageUrls, setImageUrls] = useState<{ [key: string]: string }>({});
-
-  useEffect(() => {
-    fetchDestinations(setDestinations);
-  }, []);
-
-  useEffect(() => {
-    if (destinations) {
-      console.log(destinations);
-      const fetchImages = async () => {
-        const images: { [key: string]: string } = {};
-        for (const dest of [
-          ...destinations.domesticDestinations,
-          ...destinations.foreignDestinations,
-        ]) {
-          try {
-            const imageUrl = await getPlaceImage(dest.destination);
-            images[dest.destination] = imageUrl || "/placeholder.svg";
-          } catch (error) {
-            console.error("Error fetching image for", dest.destination, error);
-            images[dest.destination] = "/placeholder.svg";
-          }
-        }
-        setImageUrls(images);
-      };
-      fetchImages();
-    }
-  }, [destinations]);
+  const { destinations, loading, error } = useDestinations();
 
   const DestinationCard = ({ dest }: { dest: Destination }) => (
     <Card className="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.33%-0.67rem)] xl:w-[calc(25%-0.75rem)]">
       <CardHeader className="p-0">
         <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
-          {imageUrls[dest.destination] ? (
+          {dest.imageUrl ? (
             <img
-              src={imageUrls[dest.destination] || "/placeholder.svg"}
+              src={dest.imageUrl || "/placeholder.svg"}
               alt={dest.destination}
               className="w-full h-full object-cover"
             />
@@ -154,34 +65,43 @@ function Recommendations() {
               <TabsTrigger value="domestic">Domestic</TabsTrigger>
               <TabsTrigger value="foreign">Foreign</TabsTrigger>
             </TabsList>
-            {destinations ? (
-              <>
-                <TabsContent value="domestic">
-                  <ScrollArea className="h-[600px] w-full rounded-md border p-4">
-                    <div className="flex flex-wrap gap-4">
-                      {destinations?.domesticDestinations?.map(
-                        (dest, index) => (
-                          <DestinationCard key={index} dest={dest} />
-                        )
-                      )}
-                    </div>
-                  </ScrollArea>
-                </TabsContent>
-                <TabsContent value="foreign">
-                  <ScrollArea className="h-[600px] w-full rounded-md border p-4">
-                    <div className="flex flex-wrap gap-4">
-                      {destinations?.foreignDestinations?.map((dest, index) => (
-                        <DestinationCard key={index} dest={dest} />
-                      ))}
-                    </div>
-                  </ScrollArea>
-                </TabsContent>
-              </>
-            ) : (
+            {loading ? (
               <div className="h-[600px] w-full rounded-md border p-4 flex items-center justify-center">
                 <Loader2 className="animate-spin" />
                 Generating Recommendations
               </div>
+            ) : (
+              <>
+                {destinations && (
+                  <>
+                    <TabsContent value="domestic">
+                      <ScrollArea className="h-[600px] w-full rounded-md border p-4">
+                        <div className="flex flex-wrap gap-4">
+                          {destinations.domesticDestinations.map(
+                            (dest, index) => (
+                              <DestinationCard key={index} dest={dest} />
+                            )
+                          )}
+                        </div>
+                      </ScrollArea>
+                    </TabsContent>
+                    <TabsContent value="foreign">
+                      <ScrollArea className="h-[600px] w-full rounded-md border p-4">
+                        <div className="flex flex-wrap gap-4">
+                          {destinations?.foreignDestinations?.map(
+                            (dest, index) => (
+                              <DestinationCard key={index} dest={dest} />
+                            )
+                          )}
+                        </div>
+                      </ScrollArea>
+                    </TabsContent>
+                  </>
+                )}
+                {error && (
+                  <div className="text-center text-red-500">{error}</div>
+                )}
+              </>
             )}
           </Tabs>
         </CardContent>

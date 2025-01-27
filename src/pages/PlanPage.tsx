@@ -11,6 +11,7 @@ import { Itinerary, storeItinerary } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useAppSelector } from "@/app/hook";
 import ItineraryLayout from "@/components/ItineraryLayout";
+import { useTravelData } from "@/hooks/useTravelData";
 
 export interface TravelData {
   location: string;
@@ -26,13 +27,10 @@ function PlanPage() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const tripTo = queryParams.get("tripTo");
-  const [travelData, setTravelData] = useState<TravelData>({
-    location: tripTo || "",
-    month: "",
-    days: 1,
-    activities: [],
-    type: "solo",
-  });
+
+  // Use the custom hook
+  const { travelData, updateTravelData } = useTravelData(tripTo || "");
+
   const [step, setStep] = useState(1);
   const [itinerary, setItinerary] = useState<Itinerary | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -41,9 +39,6 @@ function PlanPage() {
   const [isSaved, setIsSaved] = useState(false);
   const { toast } = useToast();
   const { user } = useAppSelector((state) => state.auth);
-  const updateTravelData = (data: Partial<TravelData>) => {
-    setTravelData((prev) => ({ ...prev, ...data }));
-  };
 
   const handleNext = () => {
     setStep((prevStep) => Math.min(prevStep + 1, 4));
