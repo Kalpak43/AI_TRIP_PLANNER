@@ -22,6 +22,7 @@ export interface Itinerary {
     weather: string;
   };
   destination?: string;
+  month?: string;
   itinerary: {
     day: number;
     title: string;

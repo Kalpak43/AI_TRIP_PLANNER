@@ -119,6 +119,7 @@ function PlanPage() {
       await storeItinerary(user.uid, user.photoURL || "", {
         ...itinerary,
         destination: travelData.location,
+        month: travelData.month,
       });
       setIsSaved(true);
       toast({
@@ -209,6 +210,20 @@ function PlanPage() {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                     >
+                      <div className="flex py-2 justify-end w-full">
+                        {step === 4 && itinerary && !isSaved && (
+                          <Button
+                            onClick={handleSaveItinerary}
+                            className=""
+                            disabled={isLoading}
+                          >
+                            {saving ? (
+                              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                            ) : null}
+                            Save Itinerary
+                          </Button>
+                        )}
+                      </div>
                       <ItineraryLayout
                         data={itinerary}
                         isSaved={isSaved}
@@ -236,18 +251,7 @@ function PlanPage() {
                   </Button>
                 </>
               )}
-              {step === 4 && itinerary && !isSaved && (
-                <Button
-                  onClick={handleSaveItinerary}
-                  className="mx-auto"
-                  disabled={isLoading}
-                >
-                  {saving ? (
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  ) : null}
-                  Save Itinerary
-                </Button>
-              )}
+
               {step === 4 && itinerary && isSaved && (
                 <p className="text-green-500 font-semibold mx-auto">
                   Itinerary Saved!

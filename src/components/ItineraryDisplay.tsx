@@ -1,6 +1,6 @@
 import type React from "react";
 import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Accordion,
   AccordionContent,
@@ -31,7 +31,6 @@ import { Button } from "@/components/ui/button";
 import type { Itinerary } from "@/lib/utils";
 import ActivityModal from "./ActivityModal";
 import PlacesImage from "./PlacesImage";
-import { ScrollArea } from "./ui/scroll-area";
 import Accommodation from "./Accomodation";
 
 interface ItineraryActivity {
@@ -162,7 +161,9 @@ const ItineraryDisplay: React.FC<ItineraryDisplayProps> = ({
           </div>
         )}
         <div className="mb-6">
-          <h3 className="text-xl font-bold mb-4 bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text">Weather</h3>
+          <h3 className="text-xl font-bold mb-4 bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text">
+            Weather
+          </h3>
           <p className="text-gray-600">{itinerary.info.weather}</p>
         </div>
         <Accordion type="single" collapsible className="mb-6 ">
@@ -229,7 +230,9 @@ const ItineraryDisplay: React.FC<ItineraryDisplayProps> = ({
         )}
 
         <div className="mt-4 py-4">
-          <h3 className="text-xl font-semibold  mb-4 bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text">Estimated Budget</h3>
+          <h3 className="text-xl font-semibold  mb-4 bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text">
+            Estimated Budget
+          </h3>
           <div className="border-2 rounded-lg">
             <Table>
               <TableHeader>

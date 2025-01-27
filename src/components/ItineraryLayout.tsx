@@ -19,8 +19,8 @@ const ItineraryLayout: React.FC<ItineraryDisplayProps> = ({
 }) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-      <div className="p-[1px] bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 shadow-md rounded-md">
-        <ScrollArea className="md:h-[800px] w-full rounded-md border p-4 bg-white">
+      <div className="p-[1px] md:h-[902px] bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 shadow-md rounded-md">
+        <ScrollArea className="md:h-[900px] w-full rounded-md border p-4 bg-white">
           <ItineraryDisplay
             data={data}
             isSaved={isSaved}
@@ -31,7 +31,10 @@ const ItineraryLayout: React.FC<ItineraryDisplayProps> = ({
       </div>
       <div className="flex flex-col gap-4">
         <WeatherComponent destination={data.destination || ""} />
-        <FlightComponent destination={data.destination || ""} />
+        <FlightComponent
+          destination={data.destination || ""}
+          month={data.month || null}
+        />
       </div>
     </div>
   );
