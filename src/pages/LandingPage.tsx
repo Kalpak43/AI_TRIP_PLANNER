@@ -54,7 +54,7 @@ function LandingPage() {
               {user ? (
                 <Link to="/home">Go to Dashboard</Link>
               ) : (
-                <Link to="/login">Log In</Link>
+                <Link to="/signin">Log In</Link>
               )}
             </Button>
           </motion.div>
