@@ -6,7 +6,7 @@ import { Link } from "react-router";
 function LandingPage() {
   const { user } = useAppSelector((state) => state.auth);
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <div className="min-h-[90dvh] flex items-center justify-center relative overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 opacity-70 blur-3xl" />
 
