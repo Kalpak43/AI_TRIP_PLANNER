@@ -122,7 +122,8 @@ function PlanPage() {
       setIsSaved(true);
       toast({
         title: "Success",
-        description: "Itinerary saved successfully!",
+        description:
+          "Itinerary saved successfully! Check it out in the profile page.",
       });
     } catch (error) {
       console.error("Error saving itinerary:", error);

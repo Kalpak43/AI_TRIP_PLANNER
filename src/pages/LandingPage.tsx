@@ -1,8 +1,10 @@
+import { useAppSelector } from "@/app/hook";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Link } from "react-router";
 
 function LandingPage() {
+  const { user } = useAppSelector((state) => state.auth);
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
       {/* Background gradient */}
@@ -49,9 +51,11 @@ function LandingPage() {
             transition={{ duration: 0.5, delay: 0.8 }}
           >
             <Button asChild size="lg" className="">
-              <Link to={"/signin"} className="gradient-hover">
-                <span>Log in</span>
-              </Link>
+              {user ? (
+                <Link to="/home">Go to Dashboard</Link>
+              ) : (
+                <Link to="/login">Log In</Link>
+              )}
             </Button>
           </motion.div>
         </motion.div>
