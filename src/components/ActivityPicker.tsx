@@ -43,44 +43,50 @@ export function ActivityPicker({
   ];
 
   return (
-    <div className="p-[1px] max-w-lg mx-auto  bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 shadow-md rounded-xl my-4">
-      <div className="p-4 rounded-xl bg-white min-h-[400px] flex items-center justify-center">
-        <div className="py-8 space-y-4">
-          <Label className="text-lg text-center font-semibold block text-blue-500">
-            Preferred Activities
-          </Label>
-          <div className="py-4 flex flex-wrap items-center justify-center gap-4">
-            {predefinedActivities.map((a, i) => (
-              <Button
-                variant="outline"
-                key={a}
-                className={`relative text-gray-400 ${
-                  activities.includes(a)
-                    ? "bg-green-600 hover:bg-green-800 text-gray-200 hover:text-gray-300"
-                    : ""
-                }`}
-                onClick={() => {
-                  !activities.includes(a) &&
-                    setActivities((x) => {
-                      return [...x, a];
-                    });
-                }}
-              >
-                {a}
-              </Button>
-            ))}
-          </div>
-          <div className="flex items-center space-x-2 mt-4 max-w-md mx-auto">
-            <Input
-              type="text"
-              value={newActivity}
-              onChange={(e) => setNewActivity(e.target.value)}
-              placeholder="Enter an activity"
-            />
-            <Button onClick={handleAddActivity}>Add</Button>
-          </div>
+    <div className="relative overflow-hidden rounded-md">
+      <img
+        src="/activity.jpg"
+        alt=""
+        className="absolute max-md:hidden inset-0 z-[-1] blur-sm object-cover object-bottom w-full h-full"
+      />
 
-          
+      <div className="p-[1px] max-w-lg mx-auto  bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 shadow-md rounded-xl my-4">
+        <div className="p-4 rounded-xl bg-white min-h-[400px] flex items-center justify-center">
+          <div className="py-8 space-y-4">
+            <Label className="text-lg text-center font-semibold block text-blue-500">
+              Preferred Activities
+            </Label>
+            <div className="py-4 flex flex-wrap items-center justify-center gap-4">
+              {predefinedActivities.map((a, i) => (
+                <Button
+                  variant="outline"
+                  key={a}
+                  className={`relative text-gray-400 ${
+                    activities.includes(a)
+                      ? "bg-green-600 hover:bg-green-800 text-gray-200 hover:text-gray-300"
+                      : ""
+                  }`}
+                  onClick={() => {
+                    !activities.includes(a) &&
+                      setActivities((x) => {
+                        return [...x, a];
+                      });
+                  }}
+                >
+                  {a}
+                </Button>
+              ))}
+            </div>
+            <div className="flex items-center space-x-2 mt-4 max-w-md mx-auto">
+              <Input
+                type="text"
+                value={newActivity}
+                onChange={(e) => setNewActivity(e.target.value)}
+                placeholder="Enter an activity"
+              />
+              <Button onClick={handleAddActivity}>Add</Button>
+            </div>
+
             <div className="flex justify-center flex-wrap gap-4 pt-4">
               {activities.map((activity, index) => (
                 <div
@@ -97,6 +103,7 @@ export function ActivityPicker({
                 </div>
               ))}
             </div>
+          </div>
         </div>
       </div>
     </div>
