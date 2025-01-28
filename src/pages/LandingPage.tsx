@@ -1,10 +1,8 @@
-import { useAppSelector } from "@/app/hook";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Link } from "react-router";
 
 function LandingPage() {
-  const { user } = useAppSelector((state) => state.auth);
   return (
     <div className="min-h-[90dvh] flex items-center justify-center relative overflow-hidden p-4 x">
       {/* Background gradient */}
@@ -18,7 +16,7 @@ function LandingPage() {
           className="relative z-10 text-center space-y-8 p-8 bg-white backdrop-blur-md rounded-xl shadow-lg"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }} 
+          transition={{ duration: 0.8 }}
         >
           <motion.h1
             className="text-5xl font-bold text-center bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-transparent bg-clip-text"
@@ -53,11 +51,7 @@ function LandingPage() {
             transition={{ duration: 0.5, delay: 0.8 }}
           >
             <Button asChild size="lg" className="">
-              {user ? (
-                <Link to="/home">Go to Home</Link>
-              ) : (
-                <Link to="/signin">Log In</Link>
-              )}
+              <Link to="/home">Try it now</Link>
             </Button>
           </motion.div>
         </motion.div>

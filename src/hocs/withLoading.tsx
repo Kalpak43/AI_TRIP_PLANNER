@@ -14,7 +14,7 @@ const withLoading = <P extends object>(
     return (
       <>
         {isLoading ? (
-          <div className="flex flex-col justify-center items-center h-[100px]">
+          <div className="flex flex-col justify-center items-center h-[200px] py-12">
             <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
             {loadingText && <p>{loadingText}</p>}
           </div>
