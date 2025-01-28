@@ -8,7 +8,6 @@ import "@/styles/custom.css";
 import "@/App.css";
 import Layout from "./Layout";
 import SignupPage from "./pages/SignupPage";
-import { Toaster } from "./components/ui/toaster";
 import { useToast } from "./hooks/use-toast";
 import ProfilePage from "./pages/ProfilePage";
 import PlanPage from "./pages/PlanPage";

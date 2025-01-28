@@ -16,7 +16,7 @@ const withLoading = <P extends object>(
         {isLoading ? (
           <div className="flex flex-col justify-center items-center h-[100px]">
             <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
-            {loadingText && <p className="ml-2">{loadingText}</p>}
+            {loadingText && <p>{loadingText}</p>}
           </div>
         ) : (
           <WrappedComponent {...(restProps as P)} />

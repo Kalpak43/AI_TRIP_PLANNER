@@ -21,8 +21,8 @@ function useDestinations() {
   const [error, setError] = useState<string | null>(null);
 
   const getPlaceImage = async (destination: string): Promise<string | null> => {
-    const unsplashAccessKey = "2uoFjCKyi9A3lRv24viv3sP0Lg8o7LVl9yUonT6N_PA"; // Replace with your Unsplash API key
-    const query = encodeURIComponent(destination); // Ensure the destination is URL encoded
+    const unsplashAccessKey = "2uoFjCKyi9A3lRv24viv3sP0Lg8o7LVl9yUonT6N_PA"; 
+    const query = encodeURIComponent(destination); 
     const unsplashUrl = `https://api.unsplash.com/search/photos?query=${query}&client_id=${unsplashAccessKey}&per_page=1`;
 
     try {
@@ -31,7 +31,7 @@ function useDestinations() {
 
       if (data.results && data.results.length > 0) {
         // Get the URL of the first image in the search results
-        const imageUrl = data.results[0]?.urls?.regular; // 'regular' size is good for general use
+        const imageUrl = data.results[0]?.urls?.regular; 
         return imageUrl || null; 
       } else {
         return null; // No images found for the destination

@@ -10,7 +10,6 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { Loader2 } from "lucide-react";
 import withLoading from "@/hocs/withLoading";
 
 function WeatherComponent({ destination }: { destination: string }) {
