@@ -78,6 +78,11 @@ const SignInCard: React.FC = () => {
     }
   };
 
+  const handleSignUpRedirect = () => {
+    const from = location.state?.from || "/home";
+    navigate("/signup", { state: { from } });
+  };
+
   return (
     <Card className="w-full max-w-md mx-auto p-[1px] bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 shadow-md">
       <div className="bg-gradient-to-r from-pink-100 to-purple-100 rounded-[inherit]">
@@ -155,9 +160,9 @@ const SignInCard: React.FC = () => {
           </form>
           <small>
             Do not have an account.{" "}
-            <Link to={"/signup"} className="underline">
+            <button onClick={handleSignUpRedirect} className="underline">
               Sign up
-            </Link>{" "}
+            </button>{" "}
             today.
           </small>
         </CardContent>

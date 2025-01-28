@@ -13,13 +13,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import "@/styles/custom.css";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 
 function SignUp() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const [loading, setLoading] = useState(false);
 
   const handleEmailSignUp = async (
@@ -53,7 +54,8 @@ function SignUp() {
         })
       );
 
-      navigate("/dashboard");
+      const from = location.state?.from || "/home";
+      navigate(from);
     } catch (error) {
       console.error("Email Sign-Up Error:", error);
       if (error instanceof Error) {
