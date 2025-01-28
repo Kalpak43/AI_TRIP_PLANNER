@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import "@/styles/custom.css";
-import { Link, useLocation, useNavigate } from "react-router";
+import {  useLocation, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { FirebaseError } from "firebase/app";

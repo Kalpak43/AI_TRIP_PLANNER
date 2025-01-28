@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Link, useLocation, useNavigate } from "react-router";
+import {  useLocation, useNavigate } from "react-router";
 import { Button } from "./ui/button";
 import useDestinations from "@/hooks/useDestinations";
 import withLoading from "@/hocs/withLoading";
