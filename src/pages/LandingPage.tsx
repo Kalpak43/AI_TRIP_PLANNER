@@ -37,14 +37,7 @@ function LandingPage() {
             </span>{" "}
             your next trip with ease
           </motion.p>
-          <motion.p
-            className="text-lg text-gray-600"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-          >
-            Please log in to continue
-          </motion.p>
+          
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
