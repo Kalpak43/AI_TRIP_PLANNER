@@ -2,10 +2,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Loader2 } from "lucide-react";
 import { Link } from "react-router";
 import { Button } from "./ui/button";
 import useDestinations from "@/hooks/useDestinations";
+import withLoading from "@/hocs/withLoading";
 
 interface Destination {
   destination: string;
@@ -51,9 +51,39 @@ function Recommendations() {
     </Card>
   );
 
+  const RecommendationsContent = withLoading(() => {
+    return (
+      <>
+        {destinations && (
+          <>
+            <TabsContent value="domestic">
+              <ScrollArea className="h-[600px] w-full rounded-md border p-4">
+                <div className="flex flex-wrap gap-4">
+                  {destinations.domesticDestinations.map((dest, index) => (
+                    <DestinationCard key={index} dest={dest} />
+                  ))}
+                </div>
+              </ScrollArea>
+            </TabsContent>
+            <TabsContent value="foreign">
+              <ScrollArea className="h-[600px] w-full rounded-md border p-4">
+                <div className="flex flex-wrap gap-4">
+                  {destinations?.foreignDestinations?.map((dest, index) => (
+                    <DestinationCard key={index} dest={dest} />
+                  ))}
+                </div>
+              </ScrollArea>
+            </TabsContent>
+          </>
+        )}
+        {error && <div className="text-center text-red-500">{error}</div>}
+      </>
+    );
+  });
+
   return (
     <div className="p-[1px] bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 shadow-md rounded-xl">
-      <Card className="w-full mx-auto ">
+      <Card className="w-full mx-auto min-h-[500px]">
         <CardHeader className="max-md:px-0">
           <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-transparent bg-clip-text">
             Travel Recommendations
@@ -65,44 +95,10 @@ function Recommendations() {
               <TabsTrigger value="domestic">Domestic</TabsTrigger>
               <TabsTrigger value="foreign">Foreign</TabsTrigger>
             </TabsList>
-            {loading ? (
-              <div className="h-[600px] w-full rounded-md border p-4 flex items-center justify-center">
-                <Loader2 className="animate-spin" />
-                Generating Recommendations
-              </div>
-            ) : (
-              <>
-                {destinations && (
-                  <>
-                    <TabsContent value="domestic">
-                      <ScrollArea className="h-[600px] w-full rounded-md border p-4">
-                        <div className="flex flex-wrap gap-4">
-                          {destinations.domesticDestinations.map(
-                            (dest, index) => (
-                              <DestinationCard key={index} dest={dest} />
-                            )
-                          )}
-                        </div>
-                      </ScrollArea>
-                    </TabsContent>
-                    <TabsContent value="foreign">
-                      <ScrollArea className="h-[600px] w-full rounded-md border p-4">
-                        <div className="flex flex-wrap gap-4">
-                          {destinations?.foreignDestinations?.map(
-                            (dest, index) => (
-                              <DestinationCard key={index} dest={dest} />
-                            )
-                          )}
-                        </div>
-                      </ScrollArea>
-                    </TabsContent>
-                  </>
-                )}
-                {error && (
-                  <div className="text-center text-red-500">{error}</div>
-                )}
-              </>
-            )}
+            <RecommendationsContent
+              isLoading={loading}
+              loadingText="Generating Recommendations"
+            />
           </Tabs>
         </CardContent>
       </Card>

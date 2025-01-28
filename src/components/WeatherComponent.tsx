@@ -11,6 +11,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Loader2 } from "lucide-react";
+import withLoading from "@/hocs/withLoading";
 
 function WeatherComponent({ destination }: { destination: string }) {
   const [latLng, setLatLng] = useState<{ lat: number; lng: number } | null>(
@@ -70,6 +71,31 @@ function WeatherComponent({ destination }: { destination: string }) {
     }));
   };
 
+  const WeatherChatWithLoading = withLoading(() => {
+    return (
+      <div>
+        <ResponsiveContainer width="100%" height={400}>
+          <LineChart
+            data={transformWeatherData()}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="date" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line
+              type="monotone"
+              dataKey="temperature"
+              stroke="#8884d8"
+              activeDot={{ r: 8 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    );
+  });
+
   return (
     <div className="p-[1px] bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 shadow-md rounded-md">
       <div className="space-y-4 bg-white rounded-md p-4">
@@ -77,32 +103,10 @@ function WeatherComponent({ destination }: { destination: string }) {
           Current Weather Details
         </h1>
 
-        {weather ? (
-          <div>
-            <ResponsiveContainer width="100%" height={400}>
-              <LineChart
-                data={transformWeatherData()}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="temperature"
-                  stroke="#8884d8"
-                  activeDot={{ r: 8 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        ) : (
-          <div className="flex justify-center items-center h-24">
-            <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
-          </div>
-        )}
+        <WeatherChatWithLoading
+          isLoading={!weather}
+          loadingText="Getting Weather"
+        />
       </div>
     </div>
   );

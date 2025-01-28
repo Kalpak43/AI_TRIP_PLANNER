@@ -32,7 +32,7 @@ function useDestinations() {
       if (data.results && data.results.length > 0) {
         // Get the URL of the first image in the search results
         const imageUrl = data.results[0]?.urls?.regular; // 'regular' size is good for general use
-        return imageUrl || null; // Return image URL or null if no image found
+        return imageUrl || null; 
       } else {
         return null; // No images found for the destination
       }
@@ -44,15 +44,15 @@ function useDestinations() {
 
   const getSeason = () => {
     const month = new Date().getMonth(); // 0 = January, 1 = February, ..., 11 = December
-    if (month >= 3 && month <= 5) return "Spring"; // March to May
-    if (month >= 6 && month <= 8) return "Summer"; // June to August
-    if (month >= 9 && month <= 11) return "Autumn"; // September to November
-    return "Winter"; // December to February
+    if (month >= 3 && month <= 5) return "Spring";
+    if (month >= 6 && month <= 8) return "Summer"; 
+    if (month >= 9 && month <= 11) return "Autumn"; 
+    return "Winter"; 
   };
 
   // Function to fetch destinations and their images
   const fetchDestinations = async () => {
-    const season = getSeason(); // Replace with your logic for determining the season
+    const season = getSeason(); 
     setLoading(true);
     setError(null);
 

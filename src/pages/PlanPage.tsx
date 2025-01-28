@@ -101,7 +101,7 @@ function PlanPage() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      className="flex flex-col items-center justify-center w-full h-[800px] animated-bg rounded-md"
+                      className="flex flex-col items-center justify-center w-full h-[800px] relative border-2 overflow-hidden rounded-md"
                     >
                       <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
                       <p className="mt-4">
@@ -109,6 +109,7 @@ function PlanPage() {
                           ? "Saving your itinerary..."
                           : "Generating your itinerary..."}
                       </p>
+                      <div className="animated-bg rounded-md absolute inset-0 z-[-1]"></div>
                     </motion.div>
                   ) : error ? (
                     <motion.div

@@ -6,6 +6,7 @@ import { Loader2, Save, Share2, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ItineraryLayout from "@/components/ItineraryLayout";
 import { useItinerary } from "@/hooks/useItinerary";
+import withLoading from "@/hocs/withLoading";
 
 function ItineraryPage() {
   const { completeId } = useParams();
@@ -48,6 +49,21 @@ function ItineraryPage() {
         console.error("Failed to copy link: ", err);
       });
   };
+
+  const ItineraryWithLoading = withLoading(() => (
+    <>
+      {data ? (
+        <ItineraryLayout
+          data={data}
+          isSaved={isSaved}
+          onSave={updateItinerary} // Pass the handleSave function
+          editable={!!(user && user.uid === data.createdBy)}
+        />
+      ) : (
+        <p className="text-center">No itinerary found.</p>
+      )}
+    </>
+  ));
 
   return (
     <main className="container mx-auto py-8 space-y-4">
@@ -100,20 +116,10 @@ function ItineraryPage() {
         </div>
       </div>
       <div className="px-1">
-        {isLoading ? (
-          <div className="flex justify-center items-center h-64">
-            <Loader2 className="h-8 w-8 animate-spin text-gray-500" />
-          </div>
-        ) : data ? (
-          <ItineraryLayout
-            data={data}
-            isSaved={isSaved}
-            onSave={updateItinerary} // Pass the handleSave function
-            editable={!!(user && user.uid === data.createdBy)}
-          />
-        ) : (
-          <p className="text-center">No itinerary found.</p>
-        )}
+        <ItineraryWithLoading
+          isLoading={isLoading}
+          loadingText="Fetching Saved Itinerary"
+        />
       </div>
     </main>
   );

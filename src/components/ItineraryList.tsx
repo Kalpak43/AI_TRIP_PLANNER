@@ -1,6 +1,6 @@
 import { useAppSelector } from "@/app/hook";
-import { getItineraries, type Itinerary } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { type Itinerary } from "@/lib/utils";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -9,35 +9,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { Link } from "react-router";
+import withLoading from "@/hocs/withLoading";
 
-function ItineraryList() {
+function ItineraryList({ itineraries }: { itineraries: Itinerary[] }) {
   const { user } = useAppSelector((state) => state.auth);
-  const [itineraries, setItineraries] = useState<Itinerary[]>([]);
-  const [loading, setLoading] = useState(true);
   const [selectedItinerary, setSelectedItinerary] = useState<Itinerary | null>(
     null
   );
-
-  useEffect(() => {
-    const fetchItineraries = async () => {
-      if (user) {
-        setLoading(true);
-        try {
-          const userItineraries = await getItineraries(user.uid);
-          setItineraries(userItineraries);
-        } catch (error) {
-          console.error("Error fetching itineraries:", error);
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
-    fetchItineraries();
-  }, [user]);
 
   const handleItineraryClick = (itinerary: Itinerary) => {
     setSelectedItinerary(
@@ -56,13 +37,7 @@ function ItineraryList() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        {loading ? (
-          <div className="space-y-4">
-            {[...Array(3)].map((_, index) => (
-              <Skeleton key={index} className="h-20 w-full" />
-            ))}
-          </div>
-        ) : itineraries.length === 0 ? (
+        {itineraries.length === 0 ? (
           <p className="text-center text-gray-500">
             No itineraries found. Start planning your next adventure!
           </p>
@@ -140,4 +115,4 @@ function ItineraryList() {
   );
 }
 
-export default ItineraryList;
+export default withLoading(ItineraryList);
