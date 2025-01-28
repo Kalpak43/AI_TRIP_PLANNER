@@ -1,7 +1,8 @@
-import React from "react";
-import { Navigate } from "react-router";
+import type React from "react";
+import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router";
 import { useSelector } from "react-redux";
-import { RootState } from "../../app/store";
+import type { RootState } from "../../app/store";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -9,9 +10,18 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const user = useSelector((state: RootState) => state.auth.user);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!user) {
+      const currentPath = `${location.pathname}${location.search}`;
+      navigate("/signin", { state: { from: currentPath }, replace: true });
+    }
+  }, [user, navigate, location]);
 
   if (!user) {
-    return <Navigate to="/signin" />;
+    return null; // or a loading indicator
   }
 
   return <>{children}</>;

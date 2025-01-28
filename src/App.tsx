@@ -39,14 +39,7 @@ const App: React.FC = () => {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/" element={<Layout />}>
           <Route index element={<LandingPage />} />
-          <Route
-            path="/home"
-            element={
-              <ProtectedRoute>
-                <HomePage />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/home" element={<HomePage />} />
           <Route
             path="/profile"
             element={

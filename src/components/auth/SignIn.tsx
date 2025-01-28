@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import "@/styles/custom.css";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { FirebaseError } from "firebase/app";
@@ -26,10 +26,15 @@ const SignInCard: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    user && navigate("/home");
-  }, [user]);
+    console.log(location);
+    if (user) {
+      const from = location.state?.from || "/home";
+      navigate(from);
+    }
+  }, [user, navigate, location.state]);
 
   const handleGoogleSignIn = async () => {
     try {

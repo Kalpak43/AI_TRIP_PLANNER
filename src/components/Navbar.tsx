@@ -15,7 +15,7 @@ import {
 import { Menu, User, LogOut } from "lucide-react";
 import type React from "react";
 import "../styles/custom.css";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 
 interface OptionType {
   title: string;
@@ -29,7 +29,13 @@ function Navbar() {
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
   const location = useLocation();
+
+  const handleSignInClick = () => {
+    // Redirect to the sign-in page, passing the current location as state
+    navigate("/signin", { state: { from: location } });
+  };
 
   const handleLogout = async () => {
     try {
@@ -43,8 +49,8 @@ function Navbar() {
   const signedOutOptions: OptionType[] = [
     {
       title: "Sign in",
-      link: "/signin",
-      type: "link",
+      type: "button",
+      action: handleSignInClick,
     },
     {
       title: "Sign up",
@@ -159,11 +165,21 @@ function Navbar() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            signedOutOptions.map((option) => (
-              <Button key={option.title} variant="ghost" asChild>
-                <Link to={option.link || ""}>{option.title}</Link>
-              </Button>
-            ))
+            signedOutOptions.map((option) =>
+              option.type === "link" ? (
+                <Button key={option.title} variant="ghost" asChild>
+                  <Link to={option.link || ""}>{option.title}</Link>
+                </Button>
+              ) : (
+                <Button
+                  key={option.title}
+                  variant="ghost"
+                  onClick={option.action}
+                >
+                  {option.title}
+                </Button>
+              )
+            )
           )}
         </nav>
 
@@ -239,16 +255,22 @@ function Navbar() {
               )}
             </>
           ) : (
-            signedOutOptions.map((option) => (
-              <Link
-                key={option.title}
-                to={option.link || ""}
-                className="block py-2 text-gray-600 hover:text-gray-900 transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {option.title}
-              </Link>
-            ))
+            signedOutOptions.map((option) =>
+              option.type === "link" ? (
+                <Button key={option.title} variant="ghost" className="block px-0" asChild>
+                  <Link to={option.link || ""}>{option.title}</Link>
+                </Button>
+              ) : (
+                <Button
+                  key={option.title}
+                  variant="ghost"
+                  onClick={option.action}
+                   className="block px-0"
+                >
+                  {option.title}
+                </Button>
+              )
+            )
           )}
         </nav>
       )}

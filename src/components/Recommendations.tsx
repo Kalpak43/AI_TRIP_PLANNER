@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { Button } from "./ui/button";
 import useDestinations from "@/hooks/useDestinations";
 import withLoading from "@/hocs/withLoading";
@@ -16,40 +16,50 @@ interface Destination {
 function Recommendations() {
   const { destinations, loading, error } = useDestinations();
 
-  const DestinationCard = ({ dest }: { dest: Destination }) => (
-    <Card className="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.33%-0.67rem)] xl:w-[calc(25%-0.75rem)]">
-      <CardHeader className="p-0">
-        <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
-          {dest.imageUrl ? (
-            <img
-              src={dest.imageUrl || "/placeholder.svg"}
-              alt={dest.destination}
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <Skeleton className="h-full w-full" />
-          )}
-        </div>
-      </CardHeader>
-      <CardContent className="md:p-4 flex flex-col justify-between">
-        <CardTitle className="text-lg mb-2">{dest.destination}</CardTitle>
-        <p className="text-sm text-muted-foreground line-clamp-2">
-          {dest.reason}
-        </p>
-        <Button
-          asChild
-          className="w-full bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 text-white font-bold transition-all duration-300 transform hover:scale-105 focus:ring-2 focus:ring-green-400 focus:ring-opacity-50"
-        >
-          <Link
-            className="mt-3"
-            to={`/plan?tripTo=${encodeURIComponent(dest.destination)}`}
+  const DestinationCard = ({ dest }: { dest: Destination }) => {
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const handleRedirect = () => {
+      navigate(`/plan?tripTo=${encodeURIComponent(dest.destination)}`, {
+        state: {
+          from: location.pathname,
+        },
+      });
+    };
+
+    return (
+      <Card className="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.33%-0.67rem)] xl:w-[calc(25%-0.75rem)]">
+        <CardHeader className="p-0">
+          <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
+            {dest.imageUrl ? (
+              <img
+                src={dest.imageUrl || "/placeholder.svg"}
+                alt={dest.destination}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <Skeleton className="h-full w-full" />
+            )}
+          </div>
+        </CardHeader>
+        <CardContent className="md:p-4 flex flex-col justify-between">
+          <CardTitle className="text-lg mb-2">{dest.destination}</CardTitle>
+          <p className="text-sm text-muted-foreground line-clamp-2">
+            {dest.reason}
+          </p>
+          <Button
+            asChild
+            className="w-full bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 text-white font-bold transition-all duration-300 transform hover:scale-105 focus:ring-2 focus:ring-green-400 focus:ring-opacity-50"
           >
-            Plan Trip
-          </Link>
-        </Button>
-      </CardContent>
-    </Card>
-  );
+            <Button className="mt-3" onClick={handleRedirect}>
+              Plan Trip
+            </Button>
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  };
 
   const RecommendationsContent = withLoading(() => {
     return (
