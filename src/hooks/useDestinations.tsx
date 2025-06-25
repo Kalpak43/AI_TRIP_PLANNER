@@ -21,8 +21,8 @@ function useDestinations() {
   const [error, setError] = useState<string | null>(null);
 
   const getPlaceImage = async (destination: string): Promise<string | null> => {
-    const unsplashAccessKey = "2uoFjCKyi9A3lRv24viv3sP0Lg8o7LVl9yUonT6N_PA"; 
-    const query = encodeURIComponent(destination); 
+    const unsplashAccessKey = "2uoFjCKyi9A3lRv24viv3sP0Lg8o7LVl9yUonT6N_PA";
+    const query = encodeURIComponent(destination);
     const unsplashUrl = `https://api.unsplash.com/search/photos?query=${query}&client_id=${unsplashAccessKey}&per_page=1`;
 
     try {
@@ -31,8 +31,8 @@ function useDestinations() {
 
       if (data.results && data.results.length > 0) {
         // Get the URL of the first image in the search results
-        const imageUrl = data.results[0]?.urls?.regular; 
-        return imageUrl || null; 
+        const imageUrl = data.results[0]?.urls?.regular;
+        return imageUrl || null;
       } else {
         return null; // No images found for the destination
       }
@@ -44,15 +44,15 @@ function useDestinations() {
 
   const getSeason = () => {
     const month = new Date().getMonth(); // 0 = January, 1 = February, ..., 11 = December
-    if (month >= 3 && month <= 5) return "Spring";
-    if (month >= 6 && month <= 8) return "Summer"; 
-    if (month >= 9 && month <= 11) return "Autumn"; 
-    return "Winter"; 
+    if (month >= 3 && month <= 5) return "Summer";
+    if (month >= 6 && month <= 9) return "Monsoon";
+    if (month >= 10 && month <= 11) return "Autumn";
+    return "Winter";
   };
 
   // Function to fetch destinations and their images
   const fetchDestinations = async () => {
-    const season = getSeason(); 
+    const season = getSeason();
     setLoading(true);
     setError(null);
 
